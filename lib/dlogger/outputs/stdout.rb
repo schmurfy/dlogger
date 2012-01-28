@@ -19,9 +19,9 @@ module DLogger
       ##
       # @see Logger::dispatch
       #
-      def dispatch(msg, data)
+      def dispatch(msg, metadata)
         if @dump_metadata
-          Kernel.puts("#{msg} : #{data.inspect}")
+          Kernel.puts("#{msg} : #{metadata.inspect}")
         else
           Kernel.puts(msg)
         end

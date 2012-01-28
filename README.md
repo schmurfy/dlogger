@@ -167,3 +167,16 @@ end
 
 ```
 
+
+# Want to contribute ?
+
+Fork and clone the repository then:
+
+``` bash
+$ bundle
+$ bundle exec guard
+``` 
+
+After this any change to a file will automatically run the associated spec file, any change
+to the README.md.erb or any of the examples will trigger a rebuild of the README.md file.
+

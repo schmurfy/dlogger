@@ -16,9 +16,9 @@ module DLogger
       ##
       # @see Logger::dispatch
       # 
-      def dispatch(msg, data)
-        severity = data.delete(:severity) || :debug
-        msg = @dump_metadata ? "#{msg} : #{data.inspect}" : msg
+      def dispatch(msg, metadata)
+        severity = metadata.delete(:severity) || :debug
+        msg = @dump_metadata ? "#{msg} : #{metadata.inspect}" : msg
         @logger.send(severity, msg)
       end
       
