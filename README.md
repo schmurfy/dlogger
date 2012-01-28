@@ -107,6 +107,8 @@ require 'dlogger'
 logger = DLogger::Logger.new
 logger.add_output( DLogger::Output::Stdout.new )
 
+# any methods defined in your extension class will become
+# a key in the resulting hash (except initialize).
 class UserExtension < DLogger::Extension
   def user_id
     rand(43)
