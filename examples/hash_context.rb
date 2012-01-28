@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 logger.with_context(:user_id => 32) do
   logger.log("My context is with me")

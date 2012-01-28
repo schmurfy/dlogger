@@ -20,8 +20,9 @@ require 'bundler/setup'
 
 require 'dlogger'
 
-
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
+
 logger.log("yeah it worked")
 
 # => yeah it worked : {}
@@ -30,10 +31,10 @@ logger.log("yeah it worked")
 
 # Features
 
-You can define hash keys and their values, they will be included in any log
-wrote withing the block.
-
 ## Contexts
+
+You can define hash keys and their values, they will be included in any log
+sent within the block.
 
 ``` ruby
 require 'rubygems'
@@ -42,6 +43,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 logger.with_context(:user_id => 32) do
   logger.log("My context is with me")
@@ -66,6 +68,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 class TimeExtension < DLogger::Extension
   def time
@@ -102,6 +105,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 class UserExtension < DLogger::Extension
   def user_id
@@ -135,6 +139,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 th1 = Thread.new do
   logger.with_context(:user_id => "alice", :thread_id => 1) do

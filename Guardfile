@@ -10,5 +10,6 @@ guard 'bacon', :output => "BetterOutput", :backtrace => 4 do
 end
 
 guard 'tilt' do
-  watch %r{README.md.erb}
+  watch(%r{README.md.erb})
+  watch(%r{examples/.*\.rb}){ "README.md.erb" }
 end

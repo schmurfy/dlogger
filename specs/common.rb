@@ -35,6 +35,8 @@ module Bacon
     
     def it(description)
       it_before_mocha(description) do
+        # TODO: find better than that...
+        1.should == 1
         begin
           mocha_setup
           yield

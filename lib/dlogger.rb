@@ -1,7 +1,8 @@
 require_relative "dlogger/version"
 require_relative "dlogger/extension"
+require_relative "dlogger/logger"
 
-require_relative "dlogger/loggers/base_logger"
-require_relative "dlogger/loggers/stdout_logger"
-require_relative "dlogger/loggers/stdlib_logger"
+require_relative "dlogger/outputs/base"
+require_relative "dlogger/outputs/stdout"
+require_relative "dlogger/outputs/stdlib_logger"
 

@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'dlogger'
 
 logger = DLogger::Logger.new
+logger.add_output( DLogger::Output::Stdout.new )
 
 class UserExtension < DLogger::Extension
   def user_id

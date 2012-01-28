@@ -1,10 +1,13 @@
 require 'thread'
 
 module DLogger
-  class BaseLogger
+  class Logger
     def initialize(name = "_default")
       @name = name
       @mutex = Mutex.new
+      @outputs = []
+      
+      # initialize context
       context
     end
     
@@ -36,6 +39,22 @@ module DLogger
       end
     end
     
+    def dispatch(msg, metadata)
+      @outputs.each do |out|
+        out.dispatch(msg, metadata)
+      end
+    end
+    
+    ##
+    # Register a new output, the only requirement is that
+    # the object passed reponds to the "dispatch" method.
+    # 
+    # @param [Object] handler the handler
+    # 
+    def add_output(handler)
+      @outputs << handler
+    end
+    
     def context
       Thread.current["#{@name}_dlogger_contexts"] ||= []
     end
@@ -54,30 +73,3 @@ module DLogger
     
   end
 end
-
-# 
-# $logger = DLogger::Logger.new
-# 
-# 
-# def do_something
-#   $logger.log("I did it !", :return => "banana")
-# end
-# 
-# th1 = Thread.new do
-#   $logger.with_context(:request => "req1") do
-#     do_something()
-#   end
-# end
-# 
-# 
-# 
-# th2 = Thread.new do
-#   $logger.with_context(:request => "re2") do
-#     do_something()
-#   end
-# end
-# 
-# 
-# 
-# [th1, th2].each(&:join)
-# 

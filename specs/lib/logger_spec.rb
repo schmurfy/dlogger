@@ -1,12 +1,17 @@
-require_relative "../../common"
+require_relative "../common"
 
 describe "Logger" do
   before do
-    @logger = DLogger::BaseLogger.new
+    @logger = DLogger::Logger.new
   end
   
-  should "dispatch msg with its data" do
-    @logger.expects(:dispatch).with("the message", :id => 43, :user => 'bob')
+  should "dispatch msg with its to registered outputs" do
+    
+    handler = mock('Handler')
+    handler.expects(:dispatch).with("the message", :id => 43, :user => 'bob')
+    
+    @logger.add_output(handler)
+    
     @logger.log("the message", :id => 43, :user => "bob")
   end
   
