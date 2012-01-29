@@ -10,8 +10,11 @@ module DLogger
       end
       
       def unbind
-        EM::add_timer(0.2){ @master.connect }
-        @master = nil
+        if @master
+          tmp = @master
+          EM::add_timer(0.2){ tmp.connect }
+          @master = nil
+        end
       end
     end
     
