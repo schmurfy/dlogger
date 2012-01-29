@@ -13,6 +13,8 @@ module DLogger
       #   include the metadata dumped with inspect
       # 
       def initialize(dump_metadata = true)
+        # without this you may not be able to tail the logs
+        $stdout.sync = true
         @dump_metadata = dump_metadata
       end
       
