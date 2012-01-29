@@ -20,4 +20,3 @@ EM::run do
   end
 end
 
-# => yeah it worked : {}
