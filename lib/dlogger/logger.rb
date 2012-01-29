@@ -66,21 +66,40 @@ module DLogger
     end
     
     ##
+    # Usually called by #with_context method but you can use
+    # it directly to push a context on the stack, it may be useful
+    # for asynchronous handling or just to push a global context.
+    # 
+    # @param [Hash, Dlogger::Extension] context_data additional informations
+    #   to include in logs
+    # 
+    def push_context(context_data)
+      if context_data.is_a?(Class)
+        context << context_data.new
+      else
+        context << context_data
+      end
+    end
+    
+    ##
+    # The exact opposite of #push_context, if you called it by hand
+    # you can remove the context for the stack by calling this method.
+    def pop_context
+      context.pop
+    end
+    
+    ##
     # add context data for any log sent within the given block.
     # 
     # @param [Hash, Dlogger::Extension] context_data additional informations
     #   to include in logs
     # 
     def with_context(context_data)
-      if context_data.is_a?(Class)
-        context << context_data.new
-      else
-        context << context_data
-      end
+      push_context(context_data)
       yield
     ensure
       # remove context
-      context.pop
+      pop_context
     end
     
   
