@@ -34,9 +34,7 @@ module DLogger
             ctx_data.class.properties.each do |attr_name|
               merged_metadata[attr_name] = ctx_data.send(attr_name)
             end
-            
-          else
-            raise "unsupported: #{ctx_data.inspect}"
+          
           end
         end
       

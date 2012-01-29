@@ -4,8 +4,8 @@ require File.expand_path('../lib/dlogger/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Julien Ammous"]
   gem.email         = ["schmurfy@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Advanced logger allowing you to include metadata with your messages}
+  gem.summary       = %q{Dynamic logger: add a context to your log messages}
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
