@@ -15,6 +15,20 @@ describe "Logger" do
     @logger.log("the message", :id => 43, :user => "bob")
   end
   
+  should 'mimic standard ruby logger interface' do
+    @logger.expects(:dispatch).with('the message', :severity => :debug)
+    @logger.debug("the message")
+    
+    @logger.expects(:dispatch).with('the message', :severity => :info)
+    @logger.info("the message")
+    
+    @logger.expects(:dispatch).with('the message', :severity => :warn)
+    @logger.warn("the message")
+    
+    @logger.expects(:dispatch).with('the message', :severity => :error)
+    @logger.error("the message")
+  end
+  
   describe 'with hash context' do
     should 'dispatch msg and merged data' do
       @logger.expects(:dispatch).with('msg', :id => 43, :user => 'bob')

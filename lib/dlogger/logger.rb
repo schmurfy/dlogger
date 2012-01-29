@@ -48,6 +48,13 @@ module DLogger
       end
     end
     
+    # Helper methods to mimic the standard ruby logger interface.
+    %w(debug info error warn).each do |level|
+      define_method(level) do |msg, metadata = {}|
+        log(msg, metadata.merge(:severity => level.to_sym))
+      end
+    end
+    
     ##
     # Register a new output, the only requirement is that
     # the object passed reponds to the "dispatch" method.
