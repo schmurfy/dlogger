@@ -45,9 +45,13 @@ module DLogger
     
     # Helper methods to mimic the standard ruby logger interface.
     %w(debug info error warn).each do |level|
-      define_method(level) do |msg, metadata = {}|
-        log(msg, metadata.merge(:severity => level.to_sym))
-      end
+      class_eval %{
+        def #{level}(msg, metadata = {})
+          # metadata << [:severity, :#{level}]
+          metadata[:severity] = :#{level}
+          log(msg, metadata)
+        end
+      }
     end
     
     ##
