@@ -131,7 +131,7 @@ logger.log("but not here")
 ## Threads and Fibers friendly
 
 Whether you use threads or fibers for concurrency you are good to go, the contexts are
-store with Thread.current which is local to the current fiber (thread's root fiber if not using
+stored with Thread.current[] which is local to the current fiber (thread's root fiber if not using
 Fiber explicitly).
 
 ``` ruby
