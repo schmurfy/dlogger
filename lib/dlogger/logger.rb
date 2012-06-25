@@ -4,7 +4,6 @@ module DLogger
   class Logger
     def initialize(name = "_default")
       @name = name
-      @mutex = Mutex.new
       @outputs = []
       
       # initialize context
@@ -19,31 +18,29 @@ module DLogger
     # @param [Hash] metadata Additional data
     # 
     def log(msg, metadata = {})
-      @mutex.synchronize do
-        # clearing a small hash is slightly faster than creating a new
-        # one each time.
-        merged_metadata.clear
-      
-        # first load context data
-        context.each do |ctx_data|
-          case ctx_data
-          when Hash
-            merged_metadata.merge!(ctx_data)
-          
-          when Extension
-            ctx_data.class.properties.each do |attr_name|
-              merged_metadata[attr_name] = ctx_data.send(attr_name)
-            end
-          
-          end
-        end
-      
-        # then add our data
-        merged_metadata.merge!(metadata)
+      # clearing a small hash is slightly faster than creating a new
+      # one each time.
+      merged_metadata.clear
+    
+      # first load context data
+      context.each do |ctx_data|
+        case ctx_data
+        when Hash
+          merged_metadata.merge!(ctx_data)
         
-        # and dispatch the result
-        dispatch(msg, merged_metadata)
+        when Extension
+          ctx_data.class.properties.each do |attr_name|
+            merged_metadata[attr_name] = ctx_data.send(attr_name)
+          end
+        
+        end
       end
+    
+      # then add our data
+      merged_metadata.merge!(metadata)
+      
+      # and dispatch the result
+      dispatch(msg, merged_metadata)
     end
     
     # Helper methods to mimic the standard ruby logger interface.
