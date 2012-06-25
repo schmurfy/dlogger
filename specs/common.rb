@@ -2,51 +2,36 @@
 require 'rubygems'
 require 'bundler/setup'
 
-if (RUBY_VERSION >= "1.9") && ENV['COVERAGE']
+require 'bacon'
+
+if ENV['COVERAGE']
+  Bacon.allow_focused_run = false
+  
   require 'simplecov'
-  
-  puts "[[  SimpleCov enabled  ]]"
-  
-  SimpleCov.start do    
-    add_filter '/specs'
+  SimpleCov.start do
+    add_filter ".*_spec"
+    add_filter "/helpers/"
   end
+  
 end
 
-require 'bacon'
-require 'mocha'
-
-$LOAD_PATH.unshift( File.expand_path('../../lib', __FILE__) )
+$LOAD_PATH.unshift( File.expand_path('../../lib' , __FILE__) )
 require 'dlogger'
 
+require 'bacon/ext/mocha'
+require 'bacon/ext/em'
+require 'bacon/ext/http'
+# require 'time_units'
+# Thread.abort_on_exception = true
 
-Bacon.summary_at_exit
+Bacon.summary_on_exit()
 
-module Bacon
-  module MochaRequirementsCounter
-    def self.increment
-      Counter[:requirements] += 1
-    end
-  end
-  
-  class Context
-    include Mocha::API
-    
-    alias_method :it_before_mocha, :it
-    
-    def it(description)
-      it_before_mocha(description) do
-        # TODO: find better than that...
-        1.should == 1
-        begin
-          mocha_setup
-          yield
-          mocha_verify(MochaRequirementsCounter)
-        rescue Mocha::ExpectationError => e
-          raise Error.new(:failed, "#{e.message}\n#{e.backtrace[0...10].join("\n")}")
-        ensure
-          mocha_teardown
-        end
-      end
-    end
+
+def freeze_time(t = Time.now)
+  Time.stubs(:now).returns(t)
+  if block_given?
+    yield
+    Time.unstub(:now)
   end
 end
+

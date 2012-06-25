@@ -14,8 +14,4 @@ Gem::Specification.new do |gem|
   gem.name          = "dlogger"
   gem.require_paths = ["lib"]
   gem.version       = Dlogger::VERSION
-  
-  gem.add_development_dependency('rake')
-  gem.add_development_dependency('tilt')
-  gem.add_development_dependency('guard-tilt')
 end
