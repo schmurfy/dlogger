@@ -38,6 +38,15 @@ describe "Logger" do
       end
     end
     
+    should 'allow proc as value' do
+      @logger.expects(:dispatch).with('msg', :id => 43, :user => 'john')
+      
+      @logger.with_context(:user => ->{ "john" } ) do
+        @logger.log('msg', :id => 43)
+      end
+      
+    end
+    
   end
   
   describe 'with extension context' do

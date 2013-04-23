@@ -40,6 +40,12 @@ module DLogger
       merged_metadata.merge!(metadata)
       
       # and dispatch the result
+      merged_metadata.each do |k,v|
+        if v.is_a?(Proc)
+          merged_metadata[k] = v.call()
+        end
+      end
+            
       dispatch(msg, merged_metadata)
     end
     

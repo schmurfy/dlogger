@@ -1,4 +1,8 @@
 
+= 0.0.4
+
+- Allow proc to be used as contetx value
+
 = 0.0.3
 
 - Added SplunkStorm output
