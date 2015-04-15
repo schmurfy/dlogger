@@ -47,6 +47,21 @@ describe "Logger" do
       
     end
     
+    should 'keep pushed context' do
+      @logger.expects(:dispatch).with('msg1', id: 43, global: 'A')
+      @logger.expects(:dispatch).with('msg2', id: 43, user: 'john', global: 'A')
+      @logger.expects(:dispatch).with('msg3', id: 43, global: 'A')
+      
+      @logger.push_context(global: 'A')
+      @logger.log('msg1', id: 43)
+      
+      @logger.with_context(user: ->{ "john" } ) do
+        @logger.log('msg2', id: 43)
+      end
+      
+      @logger.log('msg3', id: 43)
+    end
+    
   end
   
   describe 'with extension context' do
