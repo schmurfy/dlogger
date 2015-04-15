@@ -1,5 +1,5 @@
 gem 'eventmachine'; require 'eventmachine'
-gem 'yajl-ruby';    require 'yajl'
+gem 'multi_json'; require 'multi_json'
 
 module DLogger
   module Output
@@ -31,7 +31,7 @@ module DLogger
       
       def dispatch(msg, metadata)
         metadata = metadata.merge(:message => msg)
-        @socket.send_data( Yajl::Encoder.encode(metadata) + "\n" )
+        @socket.send_data( MultiJson.encode(metadata) + "\n" )
       end
     end
     
