@@ -7,6 +7,8 @@ gem 'eventmachine', '~> 1.0.0.rc.1'
 gem 'em-http-request'
 gem 'yajl-ruby'
 
+gem 'syslog_protocol', github: 'newrelic-forks/syslog_protocol'
+
 group(:test) do
   gem 'rake'
   
