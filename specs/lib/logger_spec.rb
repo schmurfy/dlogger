@@ -111,4 +111,29 @@ describe "Logger" do
     
   end
   
+  
+  describe 'multiple concurrent contexts' do
+    before do
+      @logger.add_to_global_context(app: "back1")
+    end
+    
+    should 'include global context in log' do
+      @logger.expects(:dispatch).with('msg1', app: "back1", op: "add", fiber: 1)
+      @logger.expects(:dispatch).with('msg2', app: "back1", op: "sub", fiber: 2)
+      
+      Fiber.new{
+        @logger.with_context(fiber: 1) do
+          @logger.log('msg1', op: 'add')
+        end
+      }.resume
+      
+      Fiber.new{
+        @logger.with_context(fiber: 2) do
+          @logger.log('msg2', op: 'sub')
+        end
+      }.resume
+      
+    end
+  end
+  
 end

@@ -9,6 +9,7 @@ module DLogger
     def initialize(name = "_default")
       @name = name
       @outputs = []
+      @global_context = {}
       @level = 0
     end
     
@@ -39,6 +40,7 @@ module DLogger
       # clearing a small hash is slightly faster than creating a new
       # one each time.
       merged_metadata.clear
+      merged_metadata.merge!(@global_context)
     
       # first load context data
       context.each do |ctx_data|
@@ -86,6 +88,15 @@ module DLogger
     # 
     def add_output(handler)
       @outputs << handler
+    end
+    
+    
+    ##
+    # This will get merged in every context no matter which fiber
+    # they are in
+    # 
+    def add_to_global_context(h)
+      @global_context.merge!(h)
     end
     
     ##
