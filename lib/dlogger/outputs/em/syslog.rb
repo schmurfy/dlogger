@@ -27,7 +27,11 @@ module DLogger
         p.tag       = "app"
         p.content   = MultiJson.encode(metadata)
         
-        @socket.send_datagram(p.to_s, @host, @port)
+        # do not raise an error if eventmachine is not running
+        # it might happen when shutting down
+        if EM.reactor_running?
+          @socket.send_datagram(p.to_s, @host, @port)
+        end
       end
       
     end
