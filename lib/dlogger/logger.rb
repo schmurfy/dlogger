@@ -10,9 +10,6 @@ module DLogger
       @name = name
       @outputs = []
       @level = 0
-      
-      # initialize context
-      init_context
     end
     
     def level=(what)
@@ -130,16 +127,12 @@ module DLogger
     
   
   private
-    
-    def init_context
-      Thread.current["#{@name}_dlogger_contexts"] = []
-    end
-    
+  
     ##
     # Store the context in fiber local variables, each
     # Thread/Fiber gets its own.
     def context
-      Thread.current["#{@name}_dlogger_contexts"]
+      Thread.current["#{@name}_dlogger_contexts"] ||= []
     end
     
     ##

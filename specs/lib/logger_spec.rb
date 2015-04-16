@@ -2,7 +2,7 @@ require_relative "../common"
 
 describe "Logger" do
   before do
-    @logger = DLogger::Logger.new
+    @logger = DLogger::Logger.new("logger#{rand(200)}#{rand(200)}")
   end
   
   should "dispatch msg with its to registered outputs" do
