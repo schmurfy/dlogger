@@ -8,7 +8,7 @@ module DLogger
     
     def initialize(name = "_default")
       @name = name
-      @outputs = []
+      @outputs = {}
       @global_context = {}
       @level = 0
     end
@@ -86,8 +86,8 @@ module DLogger
     # 
     # @param [Object] handler the handler
     # 
-    def add_output(handler)
-      @outputs << handler
+    def add_output(name, handler)
+      @outputs[name] = handler
     end
     
     
@@ -161,7 +161,7 @@ module DLogger
     #   additional informations you want to make available
     # 
     def dispatch(msg, metadata)
-      @outputs.each do |out|
+      @outputs.each do |name, out|
         out.dispatch(msg, metadata)
       end
     end
