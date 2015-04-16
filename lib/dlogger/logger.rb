@@ -27,8 +27,10 @@ module DLogger
     # 
     # @param [String] msg the message
     # @param [Hash] metadata Additional data
+    # @param [Array] restrict If set the output will only be sent to these
+    #    outputs.
     # 
-    def log(msg, metadata = {})
+    def log(msg, metadata: {}, restrict: [])
       # clearing a small hash is slightly faster than creating a new
       # one each time.
       merged_metadata.clear
@@ -58,7 +60,7 @@ module DLogger
         end
       end
             
-      dispatch(msg, merged_metadata)
+      dispatch(msg, metadata: merged_metadata, restrict: restrict)
     end
     
     def self.level_as_sym(level)
@@ -72,10 +74,10 @@ module DLogger
             #{index} >= @level
           end
           
-          def #{name}(msg, metadata = {})
+          def #{name}(msg, metadata: {}, restrict: [])
             # metadata << [:severity, :#{name}]
             metadata[:severity] = :#{name}
-            log(msg, metadata)
+            log(msg, metadata: metadata, restrict: restrict)
           end
         }, __FILE__, __LINE__)
     end
@@ -160,8 +162,14 @@ module DLogger
     # @param [Hash] metadata a hash including all the
     #   additional informations you want to make available
     # 
-    def dispatch(msg, metadata)
-      @outputs.each do |name, out|
+    def dispatch(msg, metadata: metadata, restrict:)
+      outputs = @outputs
+      
+      if restrict && (restrict.size > 0)
+        outputs = outputs.reject{|name, out| !restrict.include?(name) }
+      end
+      
+      outputs.each do |name, out|
         out.dispatch(msg, metadata)
       end
     end
