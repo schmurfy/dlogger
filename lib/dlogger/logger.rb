@@ -21,14 +21,6 @@ module DLogger
       end
     end
     
-    LOG_LEVELS.each.with_index do |name, index|
-      class_eval(%{
-          def #{name}?
-            #{index} >= @level
-          end
-        })
-    end
-    
     ##
     # Main entry point, log a message with
     # its metadata.
@@ -69,15 +61,23 @@ module DLogger
       dispatch(msg, merged_metadata)
     end
     
+    def self.level_as_sym(level)
+      LOG_LEVELS[level]
+    end
+    
     # Helper methods to mimic the standard ruby logger interface.
-    %w(debug info error warn).each do |level|
-      class_eval %{
-        def #{level}(msg, metadata = {})
-          # metadata << [:severity, :#{level}]
-          metadata[:severity] = :#{level}
-          log(msg, metadata)
-        end
-      }
+    LOG_LEVELS.each.with_index do |name, index|
+      class_eval(%{
+          def #{name}?
+            #{index} >= @level
+          end
+          
+          def #{name}(msg, metadata = {})
+            # metadata << [:severity, :#{name}]
+            metadata[:severity] = :#{name}
+            log(msg, metadata)
+          end
+        })
     end
     
     ##
