@@ -29,6 +29,20 @@ describe "Logger" do
     @logger.error("the message")
   end
   
+  should 'implement level interface' do
+    @logger.level = :debug
+    @logger.debug?.should == true
+    @logger.info?.should == true
+    @logger.warn?.should == true
+    @logger.error?.should == true
+    
+    @logger.level = :warn
+    @logger.debug?.should == false
+    @logger.info?.should == false
+    @logger.warn?.should == true
+    @logger.error?.should == true
+  end
+  
   describe 'with hash context' do
     should 'dispatch msg and merged data' do
       @logger.expects(:dispatch).with('msg', id: 43, user: 'bob')

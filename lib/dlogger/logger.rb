@@ -2,12 +2,33 @@ require 'thread'
 
 module DLogger
   class Logger
+    LOG_LEVELS = [:debug, :info, :warn, :error].freeze
+    
+    attr_accessor :level
+    
     def initialize(name = "_default")
       @name = name
       @outputs = []
+      @level = 0
       
       # initialize context
       init_context
+    end
+    
+    def level=(what)
+      if what.is_a?(Symbol)
+        @level = LOG_LEVELS.index(what)
+      else
+        rais "symbol expected"
+      end
+    end
+    
+    LOG_LEVELS.each.with_index do |name, index|
+      class_eval(%{
+          def #{name}?
+            #{index} >= @level
+          end
+        })
     end
     
     ##
