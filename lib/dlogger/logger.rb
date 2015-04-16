@@ -77,7 +77,7 @@ module DLogger
             metadata[:severity] = :#{name}
             log(msg, metadata)
           end
-        })
+        }, __FILE__, __LINE__)
     end
     
     ##
