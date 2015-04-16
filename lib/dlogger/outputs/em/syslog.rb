@@ -16,7 +16,7 @@ module DLogger
         
         @socket = EM::open_datagram_socket(bind_address, 0)
       end
-            
+      
       def dispatch(msg, metadata)
         metadata = metadata.merge(message: msg)
         
