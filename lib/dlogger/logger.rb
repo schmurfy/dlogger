@@ -162,7 +162,7 @@ module DLogger
     # @param [Hash] metadata a hash including all the
     #   additional informations you want to make available
     # 
-    def dispatch(msg, metadata: metadata, restrict:)
+    def dispatch(msg, metadata: {}, restrict:)
       outputs = @outputs
       
       if restrict && (restrict.size > 0)
