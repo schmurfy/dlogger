@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in dlogger.gemspec
 gemspec
 
-gem 'eventmachine', '~> 1.0.0.rc.1'
+gem 'eventmachine', '~> 1.2.3'
 gem 'em-http-request'
 gem 'yajl-ruby'
 
@@ -27,4 +27,3 @@ group(:test) do
   gem 'tilt'
   gem 'guard-tilt'
 end
-
