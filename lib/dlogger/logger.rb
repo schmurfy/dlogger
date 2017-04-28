@@ -2,7 +2,7 @@ require 'thread'
 
 module DLogger
   class Logger
-    LOG_LEVELS = [:debug, :info, :warn, :error].freeze
+    LOG_LEVELS = [:trace, :debug, :info, :warn, :error].freeze
     
     attr_accessor :level
     
